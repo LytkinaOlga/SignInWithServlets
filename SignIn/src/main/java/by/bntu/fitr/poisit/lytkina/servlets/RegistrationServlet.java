@@ -1,6 +1,7 @@
 package by.bntu.fitr.poisit.lytkina.servlets;
 
 import by.bntu.fitr.poisit.lytkina.bean.User;
+import by.bntu.fitr.poisit.lytkina.dao.UserDAO;
 import by.bntu.fitr.poisit.lytkina.service.UserService;
 import lombok.SneakyThrows;
 
@@ -11,31 +12,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class IndexServlet extends HttpServlet {
-
+public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        RequestDispatcher view = req.getRequestDispatcher("/index.jsp");
+        RequestDispatcher view = req.getRequestDispatcher("/registration.jsp");
         view.forward(req, resp);
     }
 
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String inputLogin = req.getParameter("login");
         String inputPassword = req.getParameter("password");
+        String inputRepeatPassword = req.getParameter("repeatPassword");
+        req.setAttribute("LoginIsNotUnique", req.getSession().getAttribute("LoginIsNotUnique"));
 
-        if (UserService.checkIfLoginAndPasswordEqual(inputLogin, inputPassword)){
-
-            req.getSession().setAttribute("login", inputLogin);
-            req.getSession().setAttribute("isAuthorized", true);
-            req.getSession().setAttribute("role", UserService.findRole(inputLogin, inputPassword));
-
-            resp.sendRedirect("/home");
+        if(UserService.checkIfLoginUnique(inputLogin)){
+            if (UserService.checkIfPasswordEqualsRepeatPassword(inputPassword, inputRepeatPassword)){
+                UserDAO.addUser(inputLogin, inputPassword);
+                resp.sendRedirect("/index");
+            }else {
+                resp.sendRedirect("/registration");
+            }
         }else {
-            resp.sendRedirect("/index");
+            req.getSession().setAttribute("LoginIsNotUnique", false);
+            resp.sendRedirect("/registration");
         }
     }
 }

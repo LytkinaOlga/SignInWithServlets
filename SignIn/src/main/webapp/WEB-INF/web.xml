@@ -4,20 +4,37 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <context-param>
-    <param-name>adminLogin</param-name>
-    <param-value>admin</param-value>
-  </context-param>
-  <context-param>
-    <param-name>adminPassword</param-name>
-    <param-value>1234</param-value>
-  </context-param>
+
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>by.bntu.fitr.poisit.lytkina.servlets.IndexServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>by.bntu.fitr.poisit.lytkina.servlets.HomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RegistrationServlet</servlet-name>
+    <servlet-class>by.bntu.fitr.poisit.lytkina.servlets.RegistrationServlet</servlet-class>
+  </servlet>
+  <filter>
+    <filter-name>IsAuthorized</filter-name>
+    <filter-class>by.bntu.fitr.poisit.lytkina.servlets.AuthorizedFilter</filter-class>
+  </filter>
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegistrationServlet</servlet-name>
+    <url-pattern>/registration</url-pattern>
+  </servlet-mapping>
+  <filter-mapping>
+    <filter-name>IsAuthorized</filter-name>
+    <servlet-name>HomeServlet</servlet-name>
+  </filter-mapping>
 </web-app>
