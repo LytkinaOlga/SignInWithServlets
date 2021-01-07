@@ -11,14 +11,11 @@
         <div class="form-group">
             <label>Input your login</label>
             <input name="login" class="form-control" placeholder="login" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <div class="invalid-feedback">${WrongLoginOrPassword}</div>
         </div>
         <div class="form-group">
             <label>Input your password</label>
             <input type="password" class="form-control" name="password" placeholder="password" required>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
         </div>
 
         <button type="submit" class="btn btn-primary" name="form_auth_submit">Enter</button>

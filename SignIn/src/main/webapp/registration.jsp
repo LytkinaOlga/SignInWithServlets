@@ -1,5 +1,6 @@
 <%@ page isELIgnored = "false" %>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -8,24 +9,25 @@
 <body>
 <div class="container">
 <h2>SIGN IN!</h2>
-    <form action="#" method="post">
+    <form action="#" method="post" class="was-validated">
         <div class="form-group">
             <label>Input your login</label>
-            <input name="login" class="form-control" placeholder="login" >
-        </div>
+            <input name="login" class="form-control" placeholder="login" required>
+            <div class="invalid-feedback">${LoginIsNotUnique}</div>
 
-        <c:if test ="${LoginIsNotUnique = false}">
-            <h1>Login should be unique</h1>
-        </c:if>
+        </div>
 
         <div class="form-group">
             <label>Input your password</label>
-            <input type="password" class="form-control" name="password" placeholder="password" >
+            <input type="password" class="form-control" name="password" placeholder="password" required>
         </div>
+
         <div class="form-group">
             <label>Repeat your password</label>
-            <input type="password" class="form-control" name="repeatPassword" placeholder="repeat password" >
+            <input type="password" class="form-control" name="repeatPassword" placeholder="repeat password" required>
+            <div class="invalid-feedback">${RepeatPasswordIsNotUnique}</div>
         </div>
+
         <button type="submit" class="btn btn-primary">Enter</button>
     </form>
 </div>

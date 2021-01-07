@@ -17,6 +17,12 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher view = req.getRequestDispatcher("/registration.jsp");
         view.forward(req, resp);
+        if (req.getSession().getAttribute("LoginIsNotUnique")!= null){
+            req.getSession().removeAttribute("LoginIsNotUnique");
+        }
+        if (req.getSession().getAttribute("RepeatPasswordIsNotUnique")!= null){
+            req.getSession().removeAttribute("RepeatPasswordIsNotUnique");
+        }
     }
 
     @SneakyThrows
@@ -27,15 +33,20 @@ public class RegistrationServlet extends HttpServlet {
         String inputRepeatPassword = req.getParameter("repeatPassword");
         req.setAttribute("LoginIsNotUnique", req.getSession().getAttribute("LoginIsNotUnique"));
 
-        if(UserService.checkIfLoginUnique(inputLogin)){
+        UserDAO userDAO = new UserDAO();
+        UserService userService = new UserService(userDAO);
+
+        if(userService.checkIfLoginUnique(inputLogin)){
             if (UserService.checkIfPasswordEqualsRepeatPassword(inputPassword, inputRepeatPassword)){
                 UserDAO.addUser(inputLogin, inputPassword);
                 resp.sendRedirect("/index");
             }else {
+
+                req.getSession().setAttribute("RepeatPasswordIsNotUnique", "Passwords do not match!");
                 resp.sendRedirect("/registration");
             }
         }else {
-            req.getSession().setAttribute("LoginIsNotUnique", false);
+            req.getSession().setAttribute("LoginIsNotUnique", "The login is already in the system. Try one more time");
             resp.sendRedirect("/registration");
         }
     }

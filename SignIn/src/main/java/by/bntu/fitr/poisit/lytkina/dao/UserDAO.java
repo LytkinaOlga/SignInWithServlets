@@ -16,7 +16,7 @@ import static by.bntu.fitr.poisit.lytkina.dao.Queries.SELECT_ALL_USERS;
 
 public class UserDAO {
 
-    public static List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() throws SQLException {
         Connection connection = DBConnector.getConnection();
         Statement st = connection.createStatement();
         ResultSet resultSet = st.executeQuery(SELECT_ALL_USERS);

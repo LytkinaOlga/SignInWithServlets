@@ -7,8 +7,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-    public static boolean checkIfLoginUnique(String inputLogin) throws SQLException {
-        List<User> users = UserDAO.getAllUsers();
+
+    private UserDAO userDAO;
+
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    public boolean checkIfLoginUnique(String inputLogin) throws SQLException {
+        List<User> users = this.userDAO.getAllUsers();
         for (User user: users){
             if (user.getLogin().equals(inputLogin)){
                 return false;
@@ -18,8 +25,8 @@ public class UserService {
 
     }
 
-    public static boolean checkIfLoginAndPasswordEqual(String inputLogin, String inputPassword) throws SQLException {
-        List<User> users = UserDAO.getAllUsers();
+    public boolean checkIfLoginAndPasswordEqual(String inputLogin, String inputPassword) throws SQLException {
+        List<User> users = this.userDAO.getAllUsers();
         for (User user: users){
             if (user.getLogin().equals(inputLogin) && user.getPassword().equals(inputPassword)){
                 return true;
@@ -34,8 +41,8 @@ public class UserService {
         }else return false;
     }
 
-    public static String findRole(String inputLogin, String inputPassword) throws SQLException {
-        List<User> users = UserDAO.getAllUsers();
+    public String findRole(String inputLogin, String inputPassword) throws SQLException {
+        List<User> users = this.userDAO.getAllUsers();
         for (User user: users){
             if (user.getLogin().equals(inputLogin) && user.getPassword().equals(inputPassword)){
                 return user.getRole().name();
